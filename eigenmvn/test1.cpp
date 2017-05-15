@@ -34,12 +34,12 @@ int main(void)
 
     for (int i = 0; i < points.size(); i++)
     {
-        cout << "(" << points.at(i).x << ", " << points.at(i).y << ") ";
+        //cout << "(" << points.at(i).x << ", " << points.at(i).y << ") ";
         if (i+1 %10 == 0)
             cout << endl;
     }
 
-    cout << "points.size:" << points.size() << endl;
+    //cout << "points.size:" << points.size() << endl;
     
     Covariance(points);
 }
@@ -51,7 +51,7 @@ Tuple GetAverage(vector<Tuple> & points)
   float xSum = 0.0;
   float ySum = 0.0;
 
-  for (int i; i < points.size(); i++)
+  for (int i = 0; i < points.size(); i++)
   {
     xSum += points.at(i).x;
     ySum += points.at(i).y;
@@ -60,6 +60,10 @@ Tuple GetAverage(vector<Tuple> & points)
   average.x = xSum / points.size();
   average.y = ySum / points.size();
 
+  cout << "xSum: " << xSum << endl;
+  cout << "ySum: " << ySum << endl;
+  cout << "average: ";
+  cout << "(" << average.x << ", " << average.y << ")" << endl;
   return average;
 }
 
@@ -92,8 +96,8 @@ void Covariance(vector<Tuple> & points)
     {
         tempx = avePoints.at(i).x;
         tempy = avePoints.at(i).y;
-        cout << "avePoints.at(i).x: " << tempx << endl;
-        cout << tempy << endl;
+        //cout << "avePoints.at(i).x: " << tempx << endl;
+        //cout << tempy << endl;
         xx += (tempx * tempx);
         xy += (tempx * tempy);
         yy += (tempy * tempy);
