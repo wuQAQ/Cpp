@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "core": "cpp",
+        "dense": "cpp",
+        "cstdio": "cpp"
     }
 }
