@@ -3,6 +3,17 @@
         "iostream": "cpp",
         "core": "cpp",
         "dense": "cpp",
-        "cstdio": "cpp"
+        "cstdio": "cpp",
+        "densecoeffsbase.h": "c",
+        "generalproduct.h": "c",
+        "transpose.h": "c",
+        "assignmentfunctors.h": "c",
+        "binaryfunctors.h": "c",
+        "nullaryfunctors.h": "c",
+        "forwarddeclarations.h": "c",
+        "meta.h": "c",
+        "xprhelper.h": "c",
+        "householder.h": "c",
+        "jacobisvd.h": "c"
     }
 }
