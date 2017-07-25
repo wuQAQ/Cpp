@@ -14,6 +14,18 @@
         "meta.h": "c",
         "xprhelper.h": "c",
         "householder.h": "c",
-        "jacobisvd.h": "c"
+        "jacobisvd.h": "c",
+        "unistd.h": "c",
+        "errno.h": "c",
+        "vectorwiseop.h": "c",
+        "videodev2.h": "c",
+        "stdio2.h": "c",
+        "string2.h": "c",
+        "*.tcc": "c",
+        "fstream": "c",
+        "fcntl.h": "c",
+        "fcntl2.h": "c",
+        "stdio.h": "c",
+        "string.h": "c"
     }
 }
