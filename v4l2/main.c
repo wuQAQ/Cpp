@@ -14,26 +14,26 @@
 #pragma pack(1)  
 typedef struct BITMAPFILEHEADER  
 {  
-unsigned short bfType;//位图文件的类型,  
-unsigned long bfSize;//位图文件的大小，以字节为单位  
-unsigned short bfReserved1;//位图文件保留字，必须为0  
-unsigned short bfReserved2;//同上  
-unsigned long bfOffBits;//位图阵列的起始位置，以相对于位图文件   或者说是头的偏移量表示，以字节为单位  
+	unsigned short bfType;//位图文件的类型,  
+	unsigned long bfSize;//位图文件的大小，以字节为单位  
+	unsigned short bfReserved1;//位图文件保留字，必须为0  
+	unsigned short bfReserved2;//同上  
+	unsigned long bfOffBits;//位图阵列的起始位置，以相对于位图文件   或者说是头的偏移量表示，以字节为单位  
 } BITMAPFILEHEADER;  
 #pragma pack()  
 typedef struct BITMAPINFOHEADER//位图信息头类型的数据结构，用于说明位图的尺寸  
 {  
-unsigned long biSize;//位图信息头的长度，以字节为单位  
-unsigned long biWidth;//位图的宽度，以像素为单位  
-unsigned long biHeight;//位图的高度，以像素为单位  
-unsigned short biPlanes;//目标设备的级别,必须为1  
-unsigned short biBitCount;//每个像素所需的位数，必须是1(单色),4(16色),8(256色)或24(2^24色)之一  
-unsigned long biCompression;//位图的压缩类型，必须是0-不压缩，1-BI_RLE8压缩类型或2-BI_RLE4压缩类型之一  
-unsigned long biSizeImage;//位图大小，以字节为单位  
-unsigned long biXPelsPerMeter;//位图目标设备水平分辨率，以每米像素数为单位  
-unsigned long biYPelsPerMeter;//位图目标设备垂直分辨率，以每米像素数为单位  
-unsigned long biClrUsed;//位图实际使用的颜色表中的颜色变址数  
-unsigned long biClrImportant;//位图显示过程中被认为重要颜色的变址数  
+	unsigned long biSize;//位图信息头的长度，以字节为单位  
+	unsigned long biWidth;//位图的宽度，以像素为单位  
+	unsigned long biHeight;//位图的高度，以像素为单位  
+	unsigned short biPlanes;//目标设备的级别,必须为1  
+	unsigned short biBitCount;//每个像素所需的位数，必须是1(单色),4(16色),8(256色)或24(2^24色)之一  
+	unsigned long biCompression;//位图的压缩类型，必须是0-不压缩，1-BI_RLE8压缩类型或2-BI_RLE4压缩类型之一  
+	unsigned long biSizeImage;//位图大小，以字节为单位  
+	unsigned long biXPelsPerMeter;//位图目标设备水平分辨率，以每米像素数为单位  
+	unsigned long biYPelsPerMeter;//位图目标设备垂直分辨率，以每米像素数为单位  
+	unsigned long biClrUsed;//位图实际使用的颜色表中的颜色变址数  
+	unsigned long biClrImportant;//位图显示过程中被认为重要颜色的变址数  
 } BITMAPINFOHEADER;  
 
 void yuv422_2_rgb();
@@ -74,16 +74,21 @@ void yuv422_2_rgb(void);
 
 int main(int argc, char ** argv)
 {
+	// 检测输入参数个数
     if (argc != 2) {
         printf("usage:%s [0|1] \n", argv[0]);
         return -1;
     }
 
+	// 检测输入参数
     printf("use video %s\n", argv[1]);
     if (!strcmp(argv[1], "0")) {
-        printf("video 0");
+        printf("video 0 \n");
         OpenCamera(0);
-    } else {
+    } else if (!strcmp(argv[1], "1")) {
+		printf("video 1\n");
+		OpenCamera(1);
+	} else {
         exit(0);
     }
 
@@ -120,7 +125,8 @@ void CapabilityCamera(void)
     struct v4l2_capability cap;
     ioctl(fd, VIDIOC_QUERYCAP, &cap);
     printf("--------------capability------------------\n");
-	printf("driver:%s    \ncard:%s   \ncapabilities:%x\n", cap.driver, cap.card, cap.capabilities);
+	printf("driver:%s    \ncard:%s   \ncapabilities:%s\n", 
+		cap.driver, cap.card, cap.capabilities);
 }
 
 // 3.查看支持的格式
@@ -242,6 +248,7 @@ static int Readfram(void)
 	struct pollfd pollfd;
 	int ret,i;
 	char filename[50];
+
     while (getchar() != '\n') {
 		memset(&pollfd, 0, sizeof(pollfd));
 		pollfd.fd = fd;
@@ -254,6 +261,7 @@ static int Readfram(void)
 			printf("poll time out\n");
 			continue;
 		}
+
 		printf("-------------poll success---------------\n");
         if(pollfd.revents & POLLIN){
             memset(&buf, 0, sizeof(buf));
@@ -270,6 +278,7 @@ static int Readfram(void)
             ret = ioctl(fd, VIDIOC_QBUF, &buf);
         }
 	}
+	
 	return ret;
 }
 
