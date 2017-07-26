@@ -125,7 +125,7 @@ void CapabilityCamera(void)
     struct v4l2_capability cap;
     ioctl(fd, VIDIOC_QUERYCAP, &cap);
     printf("--------------capability------------------\n");
-	printf("driver:%s    \ncard:%s   \ncapabilities:%s\n", 
+	printf("driver:%s    \ncard:%s   \ncapabilities:%x\n", 
 		cap.driver, cap.card, cap.capabilities);
 }
 
@@ -187,9 +187,11 @@ int Initmmap(void)
     struct v4l2_requestbuffers reqbuf;
     int i, ret;
 
+	memset(&reqbuf, 0, sizeof(reqbuf));
     reqbuf.count = videocount;
     reqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     reqbuf.memory = V4L2_MEMORY_MMAP;
+
     ret = ioctl(fd, VIDIOC_REQBUFS, &reqbuf);
     if (0 != ret) {
         printf("VIDIOC_REQBUFS fail\n");
@@ -201,6 +203,7 @@ int Initmmap(void)
     for (i = 0; i < reqbuf.count; i++)
     {
         struct v4l2_buffer buf;
+
 		memset(&buf, 0, sizeof(buf));
 		buf.index = i;
 		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
@@ -208,14 +211,17 @@ int Initmmap(void)
 		ret = ioctl(fd, VIDIOC_QUERYBUF, &buf);
 		
 		framebuf[i].length = buf.length;
-		framebuf[i].start = mmap(NULL, buf.length, PROT_READ|PROT_WRITE, 
+		framebuf[i].start = mmap(NULL, buf.length, 
+			PROT_READ|PROT_WRITE, 
 			MAP_SHARED, fd, buf.m.offset);
+
 		if(framebuf[i].start == MAP_FAILED){
 			perror("mmap fail.\n");
 			return -1;
 		}
 		printf("start:%x  length:%d\n",(unsigned int)framebuf[i].start,framebuf[i].length);
     }
+
     return 0;
 }
 
@@ -299,7 +305,7 @@ static void CloseCamera(void)
 	close(fd);
 }
 
-void yuv422_2_rgb(void)
+/* void yuv422_2_rgb(void)
 {
 	unsigned char YUV[4],RGB[6];
 	int i,j,k=0;
@@ -345,4 +351,4 @@ void yuv422_2_rgb(void)
         k+=6;	
 	}
 	return ;
-}
+} */
