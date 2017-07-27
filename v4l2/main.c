@@ -157,7 +157,7 @@ int setfmtCamera(void)
     format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	format.fmt.pix.width = width;
 	format.fmt.pix.height = height;
-	format.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;  // 设置为yuyv格式数据
+	format.fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;  // 设置为yuyv格式数据
 	format.fmt.pix.field = V4L2_FIELD_INTERLACED;
 
     ret = ioctl(fd, VIDIOC_S_FMT, &format);
@@ -255,7 +255,7 @@ static int Readfram(void)
 	int ret,i;
 	char filename[50];
 
-    while (getchar() != '\n') {
+    for(;;){
 		memset(&pollfd, 0, sizeof(pollfd));
 		pollfd.fd = fd;
 		pollfd.events = POLLIN;

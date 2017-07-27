@@ -26,6 +26,9 @@
         "fcntl.h": "c",
         "fcntl2.h": "c",
         "stdio.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "swresample.h": "c",
+        "opt.h": "c",
+        "mathematics.h": "c"
     }
 }
